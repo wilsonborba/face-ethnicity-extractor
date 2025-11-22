@@ -7,8 +7,10 @@ mod domain;
 
 #[tokio::main]
 async fn main() {
-    debug!(
-        "Application started at root path: {}",
-        app_settings().root_path
-    );
+    let root_path = &app_settings().root_path;
+
+    let progress_file_path = format!("{}/dal/local/progress.json", root_path);
+
+    debug!("Application started at root path: {}", root_path);
+    debug!("Progress file path: {}", progress_file_path);
 }

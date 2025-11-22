@@ -34,3 +34,24 @@ pub async fn extract_image_urls(driver: &thirtyfour::WebDriver) -> WebDriverResu
 
     Ok(image_urls)
 }
+
+pub async fn download_image_to_path(
+    driver: &thirtyfour::WebDriver,
+    image_url: &str,
+    download_path: &str,
+) -> WebDriverResult<()> {
+    let script = format!(
+        r#"
+        var link = document.createElement('a');
+        link.href = '{}';
+        link.download = '{}';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    "#,
+        image_url, download_path
+    );
+
+    driver.execute_script(&script, vec![]).await?;
+    Ok(())
+}
